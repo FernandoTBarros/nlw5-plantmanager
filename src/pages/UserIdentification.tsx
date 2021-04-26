@@ -1,11 +1,10 @@
 import React from 'react';
-import { Keyboard, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, View, TouchableWithoutFeedback, Platform } from 'react-native';
 import { useNavigation } from "@react-navigation/core";
 import { Button } from '../components/Button';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export function UserIdentification() {
   const [isFocused, setIsFocused] = React.useState(false);
@@ -34,26 +33,28 @@ export function UserIdentification() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={styles.content}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.form}>
-            <Text style={styles.emoji}>{isFilled ? "😄" : "😀"}</Text>
-            <Text style={styles.title}>
-              Como podemos {'\n'}
+          <View style={styles.content}>
+            <View style={styles.form}>
+              <Text style={styles.emoji}>{isFilled ? "😄" : "😀"}</Text>
+              <Text style={styles.title}>
+                Como podemos {'\n'}
           chamar você?
           </Text>
 
-            <TextInput style={[
-              styles.input,
-              (isFocused || isFilled) && { borderColor: colors.green },
-            ]} placeholder="Digite um nome"
-              onBlur={handleInputBlur}
-              onFocus={handleInputFocus}
-              onChangeText={handleInputChange} />
+              <TextInput style={[
+                styles.input,
+                (isFocused || isFilled) && { borderColor: colors.green },
+              ]} placeholder="Digite um nome"
+                onBlur={handleInputBlur}
+                onFocus={handleInputFocus}
+                onChangeText={handleInputChange} />
 
-            <View style={styles.footer}>
-              <Button title="Confirmar" onPress={handleSubmit} />
+              <View style={styles.footer}>
+                <Button title="Confirmar" onPress={handleSubmit} />
 
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
